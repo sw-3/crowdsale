@@ -10,12 +10,15 @@ describe('Crowdsale', () => {
 
 	beforeEach(async () => {
 		const Crowdsale = await ethers.getContractFactory('Crowdsale')
-		crowdsale = await Crowdsale.deploy()
+		const Token = await ethers.getContractFactory('Token')
+
+		token = await Token.deploy('ScottW3 Token', 'SW3T', '100000000')
+		crowdsale = await Crowdsale.deploy(token.address)
 	})
 
 	describe('Deployment', () => {
-		it('has correct name', async () => {
-			expect(await crowdsale.name()).to.eq("Crowdsale")
+		it('returns token address', async () => {
+			expect(await crowdsale.token()).to.equal(token.address)
 		})
 	})
 })
