@@ -30,19 +30,19 @@ contract Crowdsale {
 		_;
 	}
 	
+	// receive function allows sending ETH direct to contract addr
 	receive() external payable {
 		uint256 amount = msg.value / price;
 		buyTokens(amount * 1e18);
 	}
 
-	// 'payable' means msg.value will contain the amt paid by caller
+	// 'payable' means msg.value will contain the amt sent by caller
 	function buyTokens(uint256 _amount) public payable {
 
 		// make sure they sent enough eth for _amount tokens
 		require(msg.value == (_amount / 1e18) * price);
 
 		// make sure enough tokens in smart contract
-		// TODO: write test for this line!
 		require(token.balanceOf(address(this)) >= _amount);
 
 		require(token.transfer(msg.sender, _amount));
@@ -61,7 +61,6 @@ contract Crowdsale {
 		require(token.transfer(owner, token.balanceOf(address(this))));
 
 		// send the ETH to crowdsale owner
-		// note:  address.balance = the ETH in the account
 		uint256 value = address(this).balance;
 		(bool sent, ) = owner.call{value: value }("");
 		require(sent);

@@ -33,8 +33,6 @@ describe('Crowdsale', () => {
 		crowdsale = await Crowdsale.deploy(token.address, ether(price), crowdsaleMaxTokens)
 
 		// send tokens to crowdsale
-		// this causes the tokens to be held inside the Crowdsale contract;
-		// 		the contract can use the transfer function, to transfer out
 		let transaction = await token.connect(deployer).transfer(crowdsale.address, tokens(crowdsaleMaxTokens))
 		await transaction.wait()
 	})
