@@ -106,4 +106,32 @@ describe('Crowdsale', () => {
 
 	})
 
+	describe('Sending ETH', () => {
+		let transaction, result
+		let amount, ethToSend, amtToReceive
+
+		describe('Success', () => {
+
+			beforeEach(async () => {
+				ethToSend = 10
+				amount = ether(ethToSend)
+
+				// mimic user sending some ETH from their wallet
+				transaction = await user1.sendTransaction({ to: crowdsale.address, value: amount })
+				result = await transaction.wait()
+			})
+
+			it('updates contracts ether balance', async () => {
+				expect(await ethers.provider.getBalance(crowdsale.address)).to.equal(amount)
+			})
+
+			it('updates user token balance', async () => {
+				amtToReceive = tokens(ethToSend / price)
+				expect(await token.balanceOf(user1.address)).to.equal(amtToReceive)
+			})
+
+		})
+
+	})
+
 })

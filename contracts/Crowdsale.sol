@@ -22,6 +22,11 @@ contract Crowdsale {
 		maxTokens = _maxTokens * (10 ** token.decimals());
 	}
 	
+	receive() external payable {
+		uint256 amount = msg.value / price;
+		buyTokens(amount * 1e18);
+	}
+
 	// 'payable' means msg.value will contain the amt paid by caller
 	function buyTokens(uint256 _amount) public payable {
 
