@@ -10,6 +10,7 @@ const ether = tokens
 describe('Crowdsale', () => {
 	let crowdsale, token
 	let accounts, deployer, user1
+	let maxTokens, crowdsaleMaxTokens, price	// all human-readable amounts
 
 	beforeEach(async () => {
 		// load contracts
@@ -17,7 +18,8 @@ describe('Crowdsale', () => {
 		const Token = await ethers.getContractFactory('Token')
 
 		// deploy token
-		token = await Token.deploy('ScottW3 Token', 'SW3T', '100000000')
+		maxTokens = 100000000
+		token = await Token.deploy('ScottW3 Token', 'SW3T', maxTokens)
 
 		// configure accounts
 		accounts = await ethers.getSigners()
@@ -25,23 +27,26 @@ describe('Crowdsale', () => {
 		user1 = accounts[1]
 
 		// deploy crowdsale
-		crowdsale = await Crowdsale.deploy(token.address, ether(1), '100000000')
+		//crowdsaleMaxTokens = maxTokens
+		crowdsaleMaxTokens = 100
+		price = 1
+		crowdsale = await Crowdsale.deploy(token.address, ether(price), crowdsaleMaxTokens)
 
 		// send tokens to crowdsale
 		// this causes the tokens to be held inside the Crowdsale contract;
 		// 		the contract can use the transfer function, to transfer out
-		let transaction = await token.connect(deployer).transfer(crowdsale.address, tokens(100000000))
+		let transaction = await token.connect(deployer).transfer(crowdsale.address, tokens(crowdsaleMaxTokens))
 		await transaction.wait()
 	})
 
 	describe('Deployment', () => {
 
 		it('sends tokens to the Crowdsale contract', async () => {
-			expect(await token.balanceOf(crowdsale.address)).to.equal(tokens(100000000))
+			expect(await token.balanceOf(crowdsale.address)).to.equal(tokens(crowdsaleMaxTokens))
 		})
 		
 		it('returns the price', async () => {
-			expect(await crowdsale.price()).to.equal(ether(1))
+			expect(await crowdsale.price()).to.equal(ether(price))
 		})
 
 		it('returns token address', async () => {
@@ -49,24 +54,27 @@ describe('Crowdsale', () => {
 		})
 
 		it('returns max tokens', async () => {
-			expect(await crowdsale.maxTokens()).to.equal(tokens(100000000))
+			expect(await crowdsale.maxTokens()).to.equal(tokens(crowdsaleMaxTokens))
 		})
 
 	})
 
 	describe('Buying tokens', () => {
 		let transaction, result
-		let amount = tokens(10)
+		let amountToBuy, costInEth, amount
 
 		describe('Success', () => {
 
 			beforeEach(async () => {
-				transaction = await crowdsale.connect(user1).buyTokens(amount, { value: ether(10) })
+				amountToBuy = 10
+				costInEth = amountToBuy * price
+				amount = tokens(amountToBuy)
+				transaction = await crowdsale.connect(user1).buyTokens(amount, { value: ether(costInEth) })
 				result = await transaction.wait()
 			})
 
 			it('transfers tokens', async () => {
-				expect(await token.balanceOf(crowdsale.address)).to.equal(tokens(99999990))
+				expect(await token.balanceOf(crowdsale.address)).to.equal(tokens(crowdsaleMaxTokens - amountToBuy))
 				expect(await token.balanceOf(user1.address)).to.equal(amount)
 			})
 
@@ -86,8 +94,13 @@ describe('Crowdsale', () => {
 		})
 
 		describe('Failure', () => {
+
 			it('rejects insufficient ETH', async () => {
 				await expect(crowdsale.connect(user1).buyTokens(tokens(10), { value: 0 })).to.be.reverted
+			})
+
+			it('rejects purchase of more than remaining tokens', async () => {
+				await expect(crowdsale.connect(user1).buyTokens(tokens(101), { value: ether(101) })).to.be.reverted
 			})
 		})
 
