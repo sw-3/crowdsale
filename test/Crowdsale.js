@@ -52,7 +52,7 @@ describe('Crowdsale', () => {
 		})
 
 		it('returns max tokens', async () => {
-			expect(await crowdsale.maxTokens()).to.equal(tokens(crowdsaleMaxTokens))
+			expect(await crowdsale.maxTokens()).to.equal(crowdsaleMaxTokens)
 		})
 
 	})

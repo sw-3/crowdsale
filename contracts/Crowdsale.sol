@@ -22,7 +22,7 @@ contract Crowdsale {
 		owner = msg.sender;
 		token = _token;
 		price = _price;
-		maxTokens = _maxTokens * (10 ** token.decimals());
+		maxTokens = _maxTokens;
 	}
 
 	modifier onlyOwner() {
