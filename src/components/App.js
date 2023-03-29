@@ -33,10 +33,11 @@ function App() {
 		// initiate provider
 		const provider = new ethers.providers.Web3Provider(window.ethereum)   // this gets metamask interface to BC
 		setProvider(provider)
+		const { chainId } = await provider.getNetwork()
 
 		// initiate contracts
-		const token = new ethers.Contract(config[31337].token.address, TOKEN_ABI, provider)
-		const crowdsale = new ethers.Contract(config[31337].crowdsale.address, CROWDSALE_ABI, provider)
+		const token = new ethers.Contract(config[chainId].token.address, TOKEN_ABI, provider)
+		const crowdsale = new ethers.Contract(config[chainId].crowdsale.address, CROWDSALE_ABI, provider)
 		setCrowdsale(crowdsale)
 
 		// fetch accounts
