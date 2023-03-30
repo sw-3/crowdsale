@@ -8,6 +8,9 @@ import Spinner from 'react-bootstrap/Spinner'
 import { ethers } from 'ethers'
 
 const Buy = ({ provider, price, crowdsale, setIsLoading }) => {
+	const MIN_BUY = 1000
+	const MAX_BUY = 1000000
+
 	const [amount, setAmount] = useState('0')
 	const [isWaiting, setIsWaiting] = useState(false)
 
@@ -16,14 +19,19 @@ const Buy = ({ provider, price, crowdsale, setIsLoading }) => {
 		setIsWaiting(true)
 
 		try {
+			if ( (amount < MIN_BUY) || (amount > MAX_BUY) ){
+				window.alert('Must purchase between 1000 and 1 million SCOT Tokens')
+			}
+			else 
+			{
+				const signer = await provider.getSigner()
 
-			const signer = await provider.getSigner()
+				const value = ethers.utils.parseUnits((amount * price).toString(), 'ether')
+				const formattedAmount = ethers.utils.parseUnits(amount.toString(), 'ether')
 
-			const value = ethers.utils.parseUnits((amount * price).toString(), 'ether')
-			const formattedAmount = ethers.utils.parseUnits(amount.toString(), 'ether')
-
-			const transaction = await crowdsale.connect(signer).buyTokens(formattedAmount, { value: value })
-			await transaction.wait()
+				const transaction = await crowdsale.connect(signer).buyTokens(formattedAmount, { value: value })
+				await transaction.wait()
+			}
 
 		} catch {
 			window.alert('User rejected or transaction reverted')

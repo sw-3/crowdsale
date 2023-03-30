@@ -10,7 +10,7 @@ async function main() {
   const NAME = 'Scott Token'
   const SYMBOL = 'SCOT'
   const MAX_SUPPLY = '100000000'
-  const PRICE = ethers.utils.parseUnits('0.00025', 'ether')
+  const PRICE = ethers.utils.parseUnits('0.000025', 'ether')
 
   // Deploy token
   const Token = await hre.ethers.getContractFactory('Token')
