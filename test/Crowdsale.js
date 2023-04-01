@@ -36,6 +36,10 @@ describe('Crowdsale', () => {
 		// send tokens to crowdsale
 		let transaction = await token.connect(deployer).transfer(crowdsale.address, tokens(crowdsaleMaxTokens))
 		await transaction.wait()
+
+		// add user1 to whitelist
+		transaction = await crowdsale.connect(deployer).addToWhitelist(user1.address)
+		result = await transaction.wait()
 	})
 
 	describe('Deployment', () => {
@@ -56,8 +60,7 @@ describe('Crowdsale', () => {
 			expect(await crowdsale.maxTokens()).to.equal(crowdsaleMaxTokens)
 		})
 
-		it('adds deployer address to whitelist', async () => {
-			expect(await crowdsale.getWhitelistLength()).to.equal(1)
+		it('adds deployer as first address in whitelist', async () => {
 			expect(await crowdsale.whitelist(0)).to.equal(deployer.address)
 		})
 
@@ -106,8 +109,11 @@ describe('Crowdsale', () => {
 			it('rejects purchase of more than remaining tokens', async () => {
 				await expect(crowdsale.connect(user1).buyTokens(tokens(101), { value: ether(101) })).to.be.reverted
 			})
-		})
 
+			it('rejects buy from non-whitelisted address', async () => {
+				await expect(crowdsale.connect(user2).buyTokens(tokens(10), { value: ether(10) })).to.be.reverted
+			})
+		})
 	})
 
 	describe('Sending ETH', () => {
@@ -169,20 +175,20 @@ describe('Crowdsale', () => {
 			})
 
 			it('identifies address not in whitelist', async () => {
-				expect(await crowdsale.isInWhitelist(user1.address)).to.equal(false)
+				expect(await crowdsale.isInWhitelist(user2.address)).to.equal(false)
 			})
 
 			it('adds address to whitelist', async () => {
-				transaction = await crowdsale.connect(deployer).addToWhitelist(user1.address)
+				transaction = await crowdsale.connect(deployer).addToWhitelist(user2.address)
 				result = await transaction.wait()
-				expect(await crowdsale.isInWhitelist(user1.address)).to.equal(true)
+				expect(await crowdsale.isInWhitelist(user2.address)).to.equal(true)
 			})
 
 		})
 
 		describe('Failure', () => {
 			it('prevents non-owner from adding to whitelist', async () => {
-				await expect(crowdsale.connect(user1).addToWhitelist(user2.address)).to.be.reverted
+				await expect(crowdsale.connect(user2).addToWhitelist(user2.address)).to.be.reverted
 			})
 		})
 

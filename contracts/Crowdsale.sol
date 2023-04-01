@@ -41,6 +41,9 @@ contract Crowdsale {
 	// 'payable' means msg.value will contain the amt sent by caller
 	function buyTokens(uint256 _amount) public payable {
 
+		// first, make sure they are on the whitelist!
+		require(isInWhitelist(msg.sender), 'Address not whitelisted.');
+
 		// make sure they sent enough eth for _amount tokens
 		require(msg.value == (_amount / 1e18) * price);
 
