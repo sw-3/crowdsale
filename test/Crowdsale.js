@@ -55,6 +55,11 @@ describe('Crowdsale', () => {
 			expect(await crowdsale.maxTokens()).to.equal(crowdsaleMaxTokens)
 		})
 
+		it('adds deployer address to whitelist', async () => {
+			expect(await crowdsale.getWhitelistLength()).to.equal(1)
+			expect(await crowdsale.whitelist(0)).to.equal(deployer.address)
+		})
+
 	})
 
 	describe('Buying tokens', () => {
@@ -127,9 +132,7 @@ describe('Crowdsale', () => {
 				amtToReceive = tokens(ethToSend / price)
 				expect(await token.balanceOf(user1.address)).to.equal(amtToReceive)
 			})
-
 		})
-
 	})
 
 	describe('Updating Price', () => {
@@ -153,6 +156,23 @@ describe('Crowdsale', () => {
 			it('prevents non-owner from updating price', async () => {
 				await expect(crowdsale.connect(user1).setPrice(price)).to.be.reverted
 			})
+		})
+	})
+
+	describe('Managing Whitelist', () => {
+
+		describe('Success', () => {
+			it('identifies address in whitelist', async () => {
+				expect(await crowdsale.isInWhitelist(deployer.address)).to.equal(true)
+			})
+
+			it('identifies address not in whitelist', async () => {
+				expect(await crowdsale.isInWhitelist(user1.address)).to.equal(false)
+			})
+
+		})
+
+		describe('Failure', () => {
 
 		})
 
@@ -197,7 +217,5 @@ describe('Crowdsale', () => {
 				await expect(crowdsale.connect(user1).finalize()).to.be.reverted
 			})
 		})
-
 	})
-
 })

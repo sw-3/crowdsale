@@ -9,6 +9,7 @@ contract Crowdsale {
 	uint256 public price;
 	uint256 public maxTokens;
 	uint256 public tokensSold;
+	address[] public whitelist;
 
 	event Buy(uint256 amount, address buyer);
 	event Finalize(uint256 tokensSold, uint256 ethRaised);
@@ -23,6 +24,7 @@ contract Crowdsale {
 		token = _token;
 		price = _price;
 		maxTokens = _maxTokens;
+		whitelist.push(msg.sender);
 	}
 
 	modifier onlyOwner() {
@@ -53,6 +55,32 @@ contract Crowdsale {
 
 	function setPrice(uint256 _price) public onlyOwner {
 		price = _price;
+	}
+
+	// note that Solidity does not expose array lengths, so...
+	function getWhitelistLength()
+		public view
+		returns (uint256)
+	{
+		return whitelist.length;
+	}
+
+	function isInWhitelist(address _address)
+		public view
+		returns (bool)
+	{
+		for (uint64 i = 0; i < whitelist.length; i++) {
+			if (whitelist[i] == _address) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	function addToWhitelist(address _address)
+		public onlyOwner
+	{
+
 	}
 
 	function finalize() public onlyOwner {
