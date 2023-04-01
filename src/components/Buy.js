@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col'
 import Spinner from 'react-bootstrap/Spinner'
 import { ethers } from 'ethers'
 
-const Buy = ({ provider, price, crowdsale, setIsLoading }) => {
+const Buy = ({ provider, price, crowdsale, setIsLoading, whitelisted }) => {
 	const MIN_BUY = 1000
 	const MAX_BUY = 1000000
 
@@ -19,10 +19,13 @@ const Buy = ({ provider, price, crowdsale, setIsLoading }) => {
 		setIsWaiting(true)
 
 		try {
-			if ( (amount < MIN_BUY) || (amount > MAX_BUY) ){
+			if (!whitelisted) {
+				window.alert('Only whitelisted accounts can purchase SCOT Tokens')
+			}
+			else if ( (amount < MIN_BUY) || (amount > MAX_BUY) ){
 				window.alert('Must purchase between 1000 and 1 million SCOT Tokens')
 			}
-			else 
+			else
 			{
 				const signer = await provider.getSigner()
 
