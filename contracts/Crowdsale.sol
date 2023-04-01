@@ -80,7 +80,7 @@ contract Crowdsale {
 	function addToWhitelist(address _address)
 		public onlyOwner
 	{
-
+		whitelist.push(_address);
 	}
 
 	function finalize() public onlyOwner {

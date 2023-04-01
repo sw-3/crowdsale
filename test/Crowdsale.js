@@ -25,6 +25,7 @@ describe('Crowdsale', () => {
 		accounts = await ethers.getSigners()
 		deployer = accounts[0]
 		user1 = accounts[1]
+		user2 = accounts[2]
 
 		// deploy crowdsale
 		//crowdsaleMaxTokens = maxTokens
@@ -160,6 +161,7 @@ describe('Crowdsale', () => {
 	})
 
 	describe('Managing Whitelist', () => {
+		let transaction, result
 
 		describe('Success', () => {
 			it('identifies address in whitelist', async () => {
@@ -170,10 +172,18 @@ describe('Crowdsale', () => {
 				expect(await crowdsale.isInWhitelist(user1.address)).to.equal(false)
 			})
 
+			it('adds address to whitelist', async () => {
+				transaction = await crowdsale.connect(deployer).addToWhitelist(user1.address)
+				result = await transaction.wait()
+				expect(await crowdsale.isInWhitelist(user1.address)).to.equal(true)
+			})
+
 		})
 
 		describe('Failure', () => {
-
+			it('prevents non-owner from adding to whitelist', async () => {
+				await expect(crowdsale.connect(user1).addToWhitelist(user2.address)).to.be.reverted
+			})
 		})
 
 	})
