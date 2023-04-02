@@ -13,7 +13,9 @@ const Info = ({ account, accountBalance, whitelisted }) => {
 					</p>
 				)}
 
-			<p><strong>Tokens Owned:</strong> {accountBalance}</p>
+			<p><strong>Tokens Owned:</strong> {accountBalance}
+				<span className="mx-1"> SCOT</span>
+			</p>
 		</div>
 	)
 }

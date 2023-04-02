@@ -9,6 +9,7 @@ import Buy from './Buy'
 import Info from './Info'
 import Loading from './Loading'
 import Progress from './Progress'
+import OwnerUI from './OwnerUI'
 
 // ABIs
 import TOKEN_ABI from '../abis/Token.json'
@@ -28,6 +29,8 @@ function App() {
 	const [maxTokens, setMaxTokens] = useState(0)
 	const [tokensSold, setTokensSold] = useState(0)
 	const [whitelisted, setWhitelisted] = useState(false)
+	const [ownerAcct, setOwnerAcct] = useState(null)
+	const [isOwner, setIsOwner] = useState(false)
 
 	const [isLoading, setIsLoading] = useState(true)
 
@@ -60,6 +63,11 @@ function App() {
 		setTokensSold(tokensSold)
 		const whitelisted = await crowdsale.isInWhitelist(account)
 		setWhitelisted(whitelisted)
+		const ownerAcct = await crowdsale.owner()
+		setOwnerAcct(ownerAcct)
+		if (account == ownerAcct) {
+			setIsOwner(true)
+		}
 
 		setIsLoading(false)
 	}
@@ -97,6 +105,18 @@ function App() {
 			{account && (
 				<Info account={account} accountBalance={accountBalance} whitelisted={whitelisted} />
 			)}
+
+			{(isOwner) ? (
+				<OwnerUI
+					provider={provider}
+					crowdsale={crowdsale}
+					setIsLoading={setIsLoading}
+				/>
+
+			) : (
+				<p> </p>
+			)}
+
 		</Container>
 	)
 }
