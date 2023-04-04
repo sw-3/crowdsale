@@ -3,24 +3,29 @@
 const hre = require("hardhat");
 
 async function main() {
-//  const NAME = 'Scott Token'
-//  const SYMBOL = 'SCOT'
+  const NAME = 'Scott Token'
+  const SYMBOL = 'SCOT'
   const MAX_SUPPLY = '1000000'
   const PRICE = ethers.utils.parseUnits('0.000025', 'ether')
 
-  // get token contract for SW3T
-  const tokenAddr = '0xf5D9957F0DBbedaAEA9cadF99aD2b7965Fcc910A'
   const Token = await ethers.getContractFactory('Token')
-  const token = Token.attach(tokenAddr)
 
-//  let token = await Token.deploy(NAME, SYMBOL, MAX_SUPPLY)
-//  await token.deployed()
-//  console.log(`Token deployed to: ${token.address}\n`)
-  console.log(`Attached to Token deployed at: ${token.address}\n`)
+//  Uncomment this block to get token contract for existing SW3T on Mumbai testnet
+//  ------------------------------------------------------------------------------
+//  NOTE: use tokenAddr in Crowdsale.deploy call below, instead of token.address
+//
+//  const tokenAddr = '0xf5D9957F0DBbedaAEA9cadF99aD2b7965Fcc910A' 
+//  const token = Token.attach(tokenAddr)
+//  console.log(`Attached to Token deployed at: ${token.address}\n`)
+
+  // Comment this block, if deploying with existing token in previous block
+  let token = await Token.deploy(NAME, SYMBOL, MAX_SUPPLY)
+  await token.deployed()
+  console.log(`Token deployed to: ${token.address}\n`)
 
   // Deploy Crowdsale
   const Crowdsale = await ethers.getContractFactory('Crowdsale')
-  const crowdsale = await Crowdsale.deploy(tokenAddr, PRICE, ethers.utils.parseUnits(MAX_SUPPLY, 'ether'))
+  const crowdsale = await Crowdsale.deploy(token.address, PRICE, ethers.utils.parseUnits(MAX_SUPPLY, 'ether'))
   await crowdsale.deployed()
   console.log(`Crowdsale deployed to: ${crowdsale.address}\n`)
 
