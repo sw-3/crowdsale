@@ -60,9 +60,13 @@ describe('Crowdsale', () => {
 			expect(await crowdsale.maxTokens()).to.equal(crowdsaleMaxTokens)
 		})
 
-		it('adds deployer as first address in whitelist', async () => {
-			expect(await crowdsale.whitelist(0)).to.equal(deployer.address)
-		})
+	    it('returns the owner', async () => {
+	      expect(await crowdsale.owner()).to.equal(deployer.address)
+	    })
+
+	    it('adds the owner to the whitelist', async () => {
+	      expect(await crowdsale.whitelist(deployer.address)).to.equal(true)
+	    })
 
 	})
 
@@ -171,17 +175,17 @@ describe('Crowdsale', () => {
 
 		describe('Success', () => {
 			it('identifies address in whitelist', async () => {
-				expect(await crowdsale.isInWhitelist(deployer.address)).to.equal(true)
+				expect(await crowdsale.whitelist(deployer.address)).to.equal(true)
 			})
 
 			it('identifies address not in whitelist', async () => {
-				expect(await crowdsale.isInWhitelist(user2.address)).to.equal(false)
+				expect(await crowdsale.whitelist(user2.address)).to.equal(false)
 			})
 
 			it('adds address to whitelist', async () => {
 				transaction = await crowdsale.connect(deployer).addToWhitelist(user2.address)
 				result = await transaction.wait()
-				expect(await crowdsale.isInWhitelist(user2.address)).to.equal(true)
+				expect(await crowdsale.whitelist(user2.address)).to.equal(true)
 			})
 
 		})

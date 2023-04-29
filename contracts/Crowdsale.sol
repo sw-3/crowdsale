@@ -9,10 +9,11 @@ contract Crowdsale {
 	uint256 public price;
 	uint256 public maxTokens;
 	uint256 public tokensSold;
-	address[] public whitelist;
+	mapping(address => bool) public whitelist;
 
 	event Buy(uint256 amount, address buyer);
 	event Finalize(uint256 tokensSold, uint256 ethRaised);
+	event AddToWhitelist(address wlAddress);
 
 	// pass in the Token address to the constructor
 	constructor(
@@ -24,7 +25,7 @@ contract Crowdsale {
 		token = _token;
 		price = _price;
 		maxTokens = _maxTokens;
-		whitelist.push(msg.sender);
+		whitelist[msg.sender] = true;
 	}
 
 	modifier onlyOwner() {
@@ -42,7 +43,7 @@ contract Crowdsale {
 	function buyTokens(uint256 _amount) public payable {
 
 		// first, make sure they are on the whitelist!
-		require(isInWhitelist(msg.sender), 'Address not whitelisted.');
+		require(whitelist[msg.sender], 'Address not whitelisted.');
 
 		// make sure they sent enough eth for _amount tokens
 		require(msg.value == (_amount / 1e18) * price);
@@ -60,31 +61,13 @@ contract Crowdsale {
 		price = _price;
 	}
 
-	// note that Solidity does not expose array lengths, so...
-	function getWhitelistLength()
-		public view
-		returns (uint256)
-	{
-		return whitelist.length;
-	}
+    function addToWhitelist(address _wlAddress) 
+    public onlyOwner 
+    {
+        whitelist[_wlAddress] = true;
 
-	function isInWhitelist(address _address)
-		public view
-		returns (bool)
-	{
-		for (uint64 i = 0; i < whitelist.length; i++) {
-			if (whitelist[i] == _address) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	function addToWhitelist(address _address)
-		public onlyOwner
-	{
-		whitelist.push(_address);
-	}
+        emit AddToWhitelist(_wlAddress);
+    }
 
 	function finalize() public onlyOwner {
 
