@@ -8,59 +8,59 @@ import Spinner from 'react-bootstrap/Spinner'
 import { ethers } from 'ethers'
 
 const Buy = ({ provider, price, crowdsale, setIsLoading, whitelisted }) => {
-	const MIN_BUY = 1000
-	const MAX_BUY = 1000000
+  const MIN_BUY = 1000
+  const MAX_BUY = 1000000
 
-	const [amount, setAmount] = useState('0')
-	const [isWaiting, setIsWaiting] = useState(false)
+  const [amount, setAmount] = useState('0')
+  const [isWaiting, setIsWaiting] = useState(false)
 
-	const buyHandler = async (e) => {
-		e.preventDefault()
-		setIsWaiting(true)
+  const buyHandler = async (e) => {
+    e.preventDefault()
+    setIsWaiting(true)
 
-		try {
-			if (!whitelisted) {
-				window.alert('Only whitelisted accounts can purchase SCOT Tokens')
-			}
-			else if ( (amount < MIN_BUY) || (amount > MAX_BUY) ){
-				window.alert('Must purchase between 1000 and 1 million SCOT Tokens')
-			}
-			else
-			{
-				const signer = await provider.getSigner()
+    try {
+      if (!whitelisted) {
+        window.alert('Only whitelisted accounts can purchase SCOT Tokens')
+      }
+      else if ( (amount < MIN_BUY) || (amount > MAX_BUY) ){
+        window.alert('Must purchase between 1000 and 1 million SCOT Tokens')
+      }
+      else
+      {
+        const signer = await provider.getSigner()
 
-				const value = ethers.utils.parseUnits((amount * price).toString(), 'ether')
-				const formattedAmount = ethers.utils.parseUnits(amount.toString(), 'ether')
+        const value = ethers.utils.parseUnits((amount * price).toString(), 'ether')
+        const formattedAmount = ethers.utils.parseUnits(amount.toString(), 'ether')
 
-				const transaction = await crowdsale.connect(signer).buyTokens(formattedAmount, { value: value })
-				await transaction.wait()
-			}
+        const transaction = await crowdsale.connect(signer).buyTokens(formattedAmount, { value: value })
+        await transaction.wait()
+      }
 
-		} catch {
-			window.alert('User rejected or transaction reverted')
-		}
+    } catch {
+      window.alert('User rejected or transaction reverted')
+    }
 
-		setIsLoading(true)
-	}
+    setIsLoading(true)
+  }
 
-	return(
-		<Form onSubmit={buyHandler} style={{ maxWidth: '800px', margin: '50px auto' }}>
-			<Form.Group as={Row}>
-				<Col>
-					<Form.Control type='number' placeholder='Enter amount' onChange={(e) => setAmount(e.target.value)}/>
-				</Col>
-				<Col className='text-center'>
-					{isWaiting ? (
-						<Spinner annimation='border' />
-					): (
-						<Button variant='primary' type='submit' style={{ width: '100%' }}>
-							Buy Tokens
-						</Button>
-					)}
-				</Col>
-			</Form.Group>
-		</Form>
-	)
+  return(
+    <Form onSubmit={buyHandler} style={{ maxWidth: '800px', margin: '50px auto' }}>
+      <Form.Group as={Row}>
+        <Col>
+          <Form.Control type='number' placeholder='Enter amount' onChange={(e) => setAmount(e.target.value)}/>
+        </Col>
+        <Col className='text-center'>
+          {isWaiting ? (
+            <Spinner annimation='border' />
+          ): (
+            <Button variant='primary' type='submit' style={{ width: '100%' }}>
+              Buy Tokens
+            </Button>
+          )}
+        </Col>
+      </Form.Group>
+    </Form>
+  )
 }
 
 export default Buy

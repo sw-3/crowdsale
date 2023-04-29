@@ -9,82 +9,82 @@ import { ethers } from 'ethers'
 
 const OwnerUI = ({ provider, crowdsale, setIsLoading }) => {
 
-	const [address, setAddress] = useState('0')
-	const [isWaiting, setIsWaiting] = useState(false)
+  const [address, setAddress] = useState('0')
+  const [isWaiting, setIsWaiting] = useState(false)
 
-	const addWhitelistHandler = async (e) => {
-		e.preventDefault()
-		setIsWaiting(true)
+  const addWhitelistHandler = async (e) => {
+    e.preventDefault()
+    setIsWaiting(true)
 
-		try {
-			const signer = await provider.getSigner()
+    try {
+      const signer = await provider.getSigner()
 
-			const transaction = await crowdsale.connect(signer).addToWhitelist(address)
-			await transaction.wait()
+      const transaction = await crowdsale.connect(signer).addToWhitelist(address)
+      await transaction.wait()
 
-		} catch {
-			window.alert('User rejected or transaction reverted')
-		}
+    } catch {
+      window.alert('User rejected or transaction reverted')
+    }
 
-		setIsLoading(true)
-	}
+    setIsLoading(true)
+  }
 
-	const finalizeHandler = async (e) => {
-		e.preventDefault()
-		setIsWaiting(true)
+  const finalizeHandler = async (e) => {
+    e.preventDefault()
+    setIsWaiting(true)
 
-		try {
-			const signer = await provider.getSigner()
+    try {
+      const signer = await provider.getSigner()
 
-			const transaction = await crowdsale.connect(signer).finalize()
-			await transaction.wait()
+      const transaction = await crowdsale.connect(signer).finalize()
+      await transaction.wait()
 
-		} catch {
-			window.alert('User rejected or transaction reverted')
-		}
+    } catch {
+      window.alert('User rejected or transaction reverted')
+    }
 
-		setIsLoading(true)
-	}
+    setIsLoading(true)
+  }
 
 
-	return(
-		<>
-			<hr />
-			<h3 className='my-5 text-center'>Add an Address to the Whitelist</h3>
+  return(
+    <>
+      <hr />
+      <h3 className='my-5 text-center'>Add an Address to the Whitelist</h3>
 
-			<Form onSubmit={addWhitelistHandler} style={{ maxWidth: '800px', margin: '50px auto' }}>
-				<Form.Group as={Row}>
-					<Col>
-						<Form.Control type='address' placeholder='Enter address' onChange={(e) => setAddress(e.target.value)}/>
-					</Col>
-					<Col className='text-center'>
-						{isWaiting ? (
-							<Spinner annimation='border' />
-						): (
-							<Button variant='primary' type='submit' style={{ width: '100%' }}>
-								Add Address To Whitelist
-							</Button>
-						)}
-					</Col>
-				</Form.Group>
-			</Form>
-			<hr />
-			<Form onSubmit={finalizeHandler} style={{ maxWidth: '600px', margin: '50px auto' }}>
-				<Form.Group as={Row}>
-					<Col className='text-center'>
-						{isWaiting ? (
-							<Spinner annimation='border' />
-						): (
-							<Button variant='primary' type='submit' style={{ width: '100%' }}>
-								<strong>FINALIZE CROWDSALE!</strong>
-							</Button>
-						)}
-					</Col>
-				</Form.Group>
-			</Form>
+      <Form onSubmit={addWhitelistHandler} style={{ maxWidth: '800px', margin: '50px auto' }}>
+        <Form.Group as={Row}>
+          <Col>
+            <Form.Control type='address' placeholder='Enter address' onChange={(e) => setAddress(e.target.value)}/>
+          </Col>
+          <Col className='text-center'>
+            {isWaiting ? (
+              <Spinner annimation='border' />
+            ): (
+              <Button variant='primary' type='submit' style={{ width: '100%' }}>
+                Add Address To Whitelist
+              </Button>
+            )}
+          </Col>
+        </Form.Group>
+      </Form>
+      <hr />
+      <Form onSubmit={finalizeHandler} style={{ maxWidth: '600px', margin: '50px auto' }}>
+        <Form.Group as={Row}>
+          <Col className='text-center'>
+            {isWaiting ? (
+              <Spinner annimation='border' />
+            ): (
+              <Button variant='primary' type='submit' style={{ width: '100%' }}>
+                <strong>FINALIZE CROWDSALE!</strong>
+              </Button>
+            )}
+          </Col>
+        </Form.Group>
+      </Form>
 
-		</>
-	)
+    </>
+  )
 }
 
 export default OwnerUI
