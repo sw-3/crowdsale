@@ -9,7 +9,7 @@ async function main() {
   const SYMBOL = 'SW3'
   const TOKEN_SUPPLY = '1000000'
   const CROWDSALE_SUPPLY = '400000'   // selling 40% of token supply
-  const PRICE = ethers.utils.parseUnits('0.0005', 'ether')
+  const PRICE = ethers.utils.parseUnits('0.00025', 'ether')
   const WHITELIST_REQUIRED = false    // for our purposes, no whitelist
 
   const Token = await ethers.getContractFactory('Token')

@@ -18,7 +18,7 @@ const Info = ({ account, accountBalance, tokensPurchased, tokenSymbol, whitelist
   return(
     <div className="my-3">
       <p>
-        <strong>Account:</strong> <span className="mx-3">{account}</span>
+        <strong>Connected Account:</strong> <span className="mx-3">{account}</span>
         <span className="mx-3">{wlIndicator}</span>
       </p>
 
