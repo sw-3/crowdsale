@@ -105,6 +105,7 @@ function App() {
             tokenSymbol={tokenSymbol}
             whitelisted={whitelisted}
             wlRequired={wlRequired}
+            acctBal={accountBalance}
             setIsLoading={setIsLoading}
           />
           <Progress maxTokens={maxTokens} tokensSold={tokensSold}/>

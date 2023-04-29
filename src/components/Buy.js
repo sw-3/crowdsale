@@ -7,7 +7,8 @@ import Col from 'react-bootstrap/Col'
 import Spinner from 'react-bootstrap/Spinner'
 import { ethers } from 'ethers'
 
-const Buy = ({ provider, price, crowdsale, tokenSymbol, whitelisted, wlRequired, setIsLoading }) => {
+const Buy = (
+  { provider, price, crowdsale, tokenSymbol, whitelisted, wlRequired, acctBal, setIsLoading }) => {
   const MIN_BUY = 1
   const MAX_BUY = 1000
 
@@ -19,11 +20,16 @@ const Buy = ({ provider, price, crowdsale, tokenSymbol, whitelisted, wlRequired,
     setIsWaiting(true)
 
     try {
+      const newBalance = Number(acctBal) + Number(amount)
+
       if (wlRequired && !whitelisted) {
         window.alert(`Only whitelisted accounts can purchase ${tokenSymbol} Tokens`)
       }
-      else if ( (amount < MIN_BUY) || (amount > MAX_BUY) ){
+      else if ( (amount < MIN_BUY) || (amount > MAX_BUY) ) {
         window.alert(`Must purchase between ${MIN_BUY} and ${MAX_BUY} ${tokenSymbol} Tokens`)
+      }
+      else if (newBalance > MAX_BUY) {
+        window.alert(`Cannot purchase more than ${MAX_BUY} ${tokenSymbol} from the same address`)
       }
       else
       {
