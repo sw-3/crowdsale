@@ -36,7 +36,7 @@ function App() {
 
 	const loadBlockchainData = async () => {
 		// initiate provider
-		const provider = new ethers.providers.Web3Provider(window.ethereum)   // this gets metamask interface to BC
+		const provider = new ethers.providers.Web3Provider(window.ethereum)
 		setProvider(provider)
 		const { chainId } = await provider.getNetwork()
 
@@ -61,7 +61,7 @@ function App() {
 		setMaxTokens(maxTokens)
 		const tokensSold = ethers.utils.formatUnits(await crowdsale.tokensSold(), 18)
 		setTokensSold(tokensSold)
-		const whitelisted = await crowdsale.isInWhitelist(account)
+		const whitelisted = await crowdsale.whitelist(account)
 		setWhitelisted(whitelisted)
 		const ownerAcct = await crowdsale.owner()
 		setOwnerAcct(ownerAcct)
