@@ -1,4 +1,4 @@
-const Info = ({ account, accountBalance, tokenSymbol, whitelisted, wlRequired }) => {
+const Info = ({ account, accountBalance, tokensPurchased, tokenSymbol, whitelisted, wlRequired }) => {
 
   let wlIndicator
 
@@ -18,12 +18,15 @@ const Info = ({ account, accountBalance, tokenSymbol, whitelisted, wlRequired })
   return(
     <div className="my-3">
       <p>
-        <strong>Account:</strong> {account}
+        <strong>Account:</strong> <span className="mx-3">{account}</span>
         <span className="mx-3">{wlIndicator}</span>
       </p>
 
       <p><strong>Tokens Owned:</strong> {accountBalance}
         <span className="mx-1"> {tokenSymbol}</span>
+        <span className="mx-5">
+          <strong>Tokens Purchased:</strong> {tokensPurchased} {tokenSymbol}
+        </span>
       </p>
     </div>
   )

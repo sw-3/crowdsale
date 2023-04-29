@@ -8,7 +8,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import { ethers } from 'ethers'
 
 const Buy = (
-  { provider, price, crowdsale, tokenSymbol, whitelisted, wlRequired, acctBal, setIsLoading }) => {
+  { provider, price, crowdsale, tokenSymbol, whitelisted, wlRequired, tokensPurchased, setIsLoading }) => {
   const MIN_BUY = 1
   const MAX_BUY = 1000
 
@@ -20,7 +20,7 @@ const Buy = (
     setIsWaiting(true)
 
     try {
-      const newBalance = Number(acctBal) + Number(amount)
+      const newBalance = Number(tokensPurchased) + Number(amount)
 
       if (wlRequired && !whitelisted) {
         window.alert(`Only whitelisted accounts can purchase ${tokenSymbol} Tokens`)

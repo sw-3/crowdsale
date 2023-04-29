@@ -26,6 +26,7 @@ function App() {
 
   const [account, setAccount] = useState(null)
   const [accountBalance, setAccountBalance] = useState(0)
+  const [tokensPurchased, setTokensPurchased] = useState(0)
 
   const [price, setPrice] = useState(0)
   const [maxTokens, setMaxTokens] = useState(0)
@@ -57,9 +58,11 @@ function App() {
     const account = ethers.utils.getAddress(accounts[0])
     setAccount(account)
 
-    // fetch account balance
+    // fetch account balance & amount of Token already purchased via the Crowdsale
     const accountBalance = ethers.utils.formatUnits(await token.balanceOf(account), 18)
     setAccountBalance(accountBalance)
+    const tokensPurchased = ethers.utils.formatUnits(await crowdsale.balances(account), 18)
+    setTokensPurchased(tokensPurchased)
 
     // fetch crowdsale data
     const price = ethers.utils.formatUnits(await crowdsale.price(), 18)
@@ -105,7 +108,7 @@ function App() {
             tokenSymbol={tokenSymbol}
             whitelisted={whitelisted}
             wlRequired={wlRequired}
-            acctBal={accountBalance}
+            tokensPurchased={tokensPurchased}
             setIsLoading={setIsLoading}
           />
           <Progress maxTokens={maxTokens} tokensSold={tokensSold}/>
@@ -118,6 +121,7 @@ function App() {
         <Info
           account={account}
           accountBalance={accountBalance}
+          tokensPurchased={tokensPurchased}
           tokenSymbol={tokenSymbol}
           whitelisted={whitelisted}
           wlRequired={wlRequired}
