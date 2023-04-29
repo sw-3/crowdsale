@@ -114,12 +114,15 @@ function App() {
       )}
 
       {(isOwner) ? (
-        <OwnerUI
-          provider={provider}
-          crowdsale={crowdsale}
-          setIsLoading={setIsLoading}
-        />
-
+        isLoading ? (
+          <Loading />
+        ) : (
+          <OwnerUI
+            provider={provider}
+            crowdsale={crowdsale}
+            setIsLoading={setIsLoading}
+          />
+        )
       ) : (
         <p> </p>
       )}
