@@ -1,4 +1,4 @@
-const Info = ({ account, accountBalance, whitelisted }) => {
+const Info = ({ account, accountBalance, tokenSymbol, whitelisted }) => {
   return(
     <div className="my-3">
       {whitelisted ? (
@@ -14,7 +14,7 @@ const Info = ({ account, accountBalance, whitelisted }) => {
         )}
 
       <p><strong>Tokens Owned:</strong> {accountBalance}
-        <span className="mx-1"> SCOT</span>
+        <span className="mx-1"> {tokenSymbol}</span>
       </p>
     </div>
   )

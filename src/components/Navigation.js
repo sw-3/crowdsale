@@ -1,17 +1,17 @@
 import Navbar from 'react-bootstrap/Navbar';
-import logo from '../logo.png';
+import logo from '../SimpleSW3_smaller.PNG';
 
-const Navigation = () => {
+const Navigation = ({ tokenName }) => {
   return(
       <Navbar>
-        <img 
-          alt="logo" 
-          src={logo} 
-          width="40" 
-          height="40"
+        <img
+          alt="logo"
+          src={logo}
+          width="95"
+          height="127"
           className="d-inline-block align-top mx-3"
         />
-        <Navbar.Brand href="#">Scott Token ICO Crowdsale</Navbar.Brand>
+        <Navbar.Brand href="#">{tokenName} ICO Crowdsale</Navbar.Brand>
       </Navbar>
   )
 }

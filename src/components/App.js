@@ -21,6 +21,8 @@ import config from '../config.json'
 function App() {
   const [provider, setProvider] = useState(null)
   const [crowdsale, setCrowdsale] = useState(null)
+  const [tokenName, setTokenName] = useState(null)
+  const [tokenSymbol, setTokenSymbol] = useState(null)
 
   const [account, setAccount] = useState(null)
   const [accountBalance, setAccountBalance] = useState(0)
@@ -29,7 +31,6 @@ function App() {
   const [maxTokens, setMaxTokens] = useState(0)
   const [tokensSold, setTokensSold] = useState(0)
   const [whitelisted, setWhitelisted] = useState(false)
-  const [ownerAcct, setOwnerAcct] = useState(null)
   const [isOwner, setIsOwner] = useState(false)
 
   const [isLoading, setIsLoading] = useState(true)
@@ -42,6 +43,11 @@ function App() {
 
     // initiate contracts
     const token = new ethers.Contract(config[chainId].token.address, TOKEN_ABI, provider)
+    const tokenName = await token.name()
+    setTokenName(tokenName)
+    const tokenSymbol = await token.symbol()
+    setTokenSymbol(tokenSymbol)
+
     const crowdsale = new ethers.Contract(config[chainId].crowdsale.address, CROWDSALE_ABI, provider)
     setCrowdsale(crowdsale)
 
@@ -63,9 +69,7 @@ function App() {
     setTokensSold(tokensSold)
     const whitelisted = await crowdsale.whitelist(account)
     setWhitelisted(whitelisted)
-    const ownerAcct = await crowdsale.owner()
-    setOwnerAcct(ownerAcct)
-    if (account == ownerAcct) {
+    if (account === (await crowdsale.owner())) {
       setIsOwner(true)
     }
 
@@ -80,9 +84,11 @@ function App() {
 
   return(
     <Container>
-      <Navigation />
+      <Navigation
+        tokenName={tokenName}
+      />
 
-      <h1 className='my-4 text-center'>Introducing Scott Token!</h1>
+      <h1 className='my-4 text-center'>Introducing {tokenName}!</h1>
 
       {isLoading ? (
         <Loading />
@@ -93,6 +99,7 @@ function App() {
             provider={provider}
             price={price}
             crowdsale={crowdsale}
+            tokenSymbol={tokenSymbol}
             setIsLoading={setIsLoading}
             whitelisted={whitelisted}
           />
@@ -103,7 +110,7 @@ function App() {
       <hr />
 
       {account && (
-        <Info account={account} accountBalance={accountBalance} whitelisted={whitelisted} />
+        <Info account={account} accountBalance={accountBalance} tokenSymbol={tokenSymbol} whitelisted={whitelisted} />
       )}
 
       {(isOwner) ? (

@@ -7,9 +7,9 @@ import Col from 'react-bootstrap/Col'
 import Spinner from 'react-bootstrap/Spinner'
 import { ethers } from 'ethers'
 
-const Buy = ({ provider, price, crowdsale, setIsLoading, whitelisted }) => {
-  const MIN_BUY = 1000
-  const MAX_BUY = 1000000
+const Buy = ({ provider, price, crowdsale, tokenSymbol, setIsLoading, whitelisted }) => {
+  const MIN_BUY = 1
+  const MAX_BUY = 1000
 
   const [amount, setAmount] = useState('0')
   const [isWaiting, setIsWaiting] = useState(false)
@@ -20,10 +20,10 @@ const Buy = ({ provider, price, crowdsale, setIsLoading, whitelisted }) => {
 
     try {
       if (!whitelisted) {
-        window.alert('Only whitelisted accounts can purchase SCOT Tokens')
+        window.alert(`Only whitelisted accounts can purchase ${tokenSymbol} Tokens`)
       }
       else if ( (amount < MIN_BUY) || (amount > MAX_BUY) ){
-        window.alert('Must purchase between 1000 and 1 million SCOT Tokens')
+        window.alert(`Must purchase between ${MIN_BUY} and ${MAX_BUY} ${tokenSymbol} Tokens`)
       }
       else
       {
