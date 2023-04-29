@@ -10,6 +10,7 @@ async function main() {
   const TOKEN_SUPPLY = '1000000'
   const CROWDSALE_SUPPLY = '400000'   // selling 40% of token supply
   const PRICE = ethers.utils.parseUnits('0.0005', 'ether')
+  const WHITELIST_REQUIRED = false    // for our purposes, no whitelist
 
   const Token = await ethers.getContractFactory('Token')
 
@@ -32,7 +33,8 @@ async function main() {
                             (
                               token.address,
                               PRICE,
-                              ethers.utils.parseUnits(CROWDSALE_SUPPLY, 'ether')
+                              ethers.utils.parseUnits(CROWDSALE_SUPPLY, 'ether'),
+                              WHITELIST_REQUIRED
                             )
   await crowdsale.deployed()
   console.log(`Crowdsale deployed to: ${crowdsale.address}\n`)

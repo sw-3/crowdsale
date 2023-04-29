@@ -8,7 +8,7 @@ const tokens = (n) => {
 const ether = tokens
 
 describe('Crowdsale', () => {
-  let crowdsale, token
+  let crowdsale, token, whitelistRequired
   let accounts, deployer, user1
   let maxTokens, crowdsaleMaxTokens, price  // all human-readable amounts
 
@@ -31,7 +31,8 @@ describe('Crowdsale', () => {
     //crowdsaleMaxTokens = maxTokens
     crowdsaleMaxTokens = 100
     price = 1
-    crowdsale = await Crowdsale.deploy(token.address, ether(price), crowdsaleMaxTokens)
+    whitelistRequired = true;
+    crowdsale = await Crowdsale.deploy(token.address, ether(price), crowdsaleMaxTokens, whitelistRequired)
 
     // send tokens to crowdsale
     let transaction = await token.connect(deployer).transfer(crowdsale.address, tokens(crowdsaleMaxTokens))

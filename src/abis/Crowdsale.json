@@ -15,6 +15,11 @@
         "internalType": "uint256",
         "name": "_maxTokens",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "_whitelistRequired",
+        "type": "bool"
       }
     ],
     "stateMutability": "nonpayable",
@@ -191,6 +196,19 @@
       }
     ],
     "name": "whitelist",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "whitelistRequired",
     "outputs": [
       {
         "internalType": "bool",

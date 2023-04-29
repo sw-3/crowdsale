@@ -31,6 +31,7 @@ function App() {
   const [maxTokens, setMaxTokens] = useState(0)
   const [tokensSold, setTokensSold] = useState(0)
   const [whitelisted, setWhitelisted] = useState(false)
+  const [wlRequired, setWlRequired] = useState(false)
   const [isOwner, setIsOwner] = useState(false)
 
   const [isLoading, setIsLoading] = useState(true)
@@ -69,6 +70,8 @@ function App() {
     setTokensSold(tokensSold)
     const whitelisted = await crowdsale.whitelist(account)
     setWhitelisted(whitelisted)
+    const wlRequired = await crowdsale.whitelistRequired()
+    setWlRequired(wlRequired)
     if (account === (await crowdsale.owner())) {
       setIsOwner(true)
     }
@@ -100,8 +103,9 @@ function App() {
             price={price}
             crowdsale={crowdsale}
             tokenSymbol={tokenSymbol}
-            setIsLoading={setIsLoading}
             whitelisted={whitelisted}
+            wlRequired={wlRequired}
+            setIsLoading={setIsLoading}
           />
           <Progress maxTokens={maxTokens} tokensSold={tokensSold}/>
         </>
@@ -110,7 +114,13 @@ function App() {
       <hr />
 
       {account && (
-        <Info account={account} accountBalance={accountBalance} tokenSymbol={tokenSymbol} whitelisted={whitelisted} />
+        <Info
+          account={account}
+          accountBalance={accountBalance}
+          tokenSymbol={tokenSymbol}
+          whitelisted={whitelisted}
+          wlRequired={wlRequired}
+        />
       )}
 
       {(isOwner) ? (
@@ -120,6 +130,7 @@ function App() {
           <OwnerUI
             provider={provider}
             crowdsale={crowdsale}
+            wlRequired={wlRequired}
             setIsLoading={setIsLoading}
           />
         )

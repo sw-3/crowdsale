@@ -9,6 +9,7 @@ contract Crowdsale {
     uint256 public price;
     uint256 public maxTokens;
     uint256 public tokensSold;
+    bool public whitelistRequired;
     mapping(address => bool) public whitelist;
 
     event Buy(uint256 amount, address buyer);
@@ -19,12 +20,14 @@ contract Crowdsale {
     constructor(
         Token _token,
         uint256 _price,
-        uint256 _maxTokens
+        uint256 _maxTokens,
+        bool _whitelistRequired
     ) {
         owner = msg.sender;
         token = _token;
         price = _price;
         maxTokens = _maxTokens;
+        whitelistRequired = _whitelistRequired;
         whitelist[msg.sender] = true;
     }
 
@@ -42,8 +45,10 @@ contract Crowdsale {
     // 'payable' means msg.value will contain the amt sent by caller
     function buyTokens(uint256 _amount) public payable {
 
-        // first, make sure they are on the whitelist!
-        require(whitelist[msg.sender], 'Address not whitelisted.');
+        // first, make sure they are on the whitelist, if required
+        if (whitelistRequired) {
+            require(whitelist[msg.sender], 'Address not whitelisted.');
+        }
 
         // make sure they sent enough eth for _amount tokens
         require(msg.value == (_amount / 1e18) * price);

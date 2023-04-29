@@ -5,9 +5,8 @@ import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Spinner from 'react-bootstrap/Spinner'
-import { ethers } from 'ethers'
 
-const OwnerUI = ({ provider, crowdsale, setIsLoading }) => {
+const OwnerUI = ({ provider, crowdsale, wlRequired, setIsLoading }) => {
 
   const [address, setAddress] = useState('0')
   const [isWaiting, setIsWaiting] = useState(false)
@@ -50,25 +49,33 @@ const OwnerUI = ({ provider, crowdsale, setIsLoading }) => {
   return(
     <>
       <hr />
-      <h3 className='my-5 text-center'>Add an Address to the Whitelist</h3>
 
-      <Form onSubmit={addWhitelistHandler} style={{ maxWidth: '800px', margin: '50px auto' }}>
-        <Form.Group as={Row}>
-          <Col>
-            <Form.Control type='address' placeholder='Enter address' onChange={(e) => setAddress(e.target.value)}/>
-          </Col>
-          <Col className='text-center'>
-            {isWaiting ? (
-              <Spinner annimation='border' />
-            ): (
-              <Button variant='primary' type='submit' style={{ width: '100%' }}>
-                Add Address To Whitelist
-              </Button>
-            )}
-          </Col>
-        </Form.Group>
-      </Form>
-      <hr />
+      {wlRequired ? (
+        <>
+        <h3 className='my-5 text-center'>Add an Address to the Whitelist</h3>
+
+        <Form onSubmit={addWhitelistHandler} style={{ maxWidth: '800px', margin: '50px auto' }}>
+          <Form.Group as={Row}>
+            <Col>
+              <Form.Control type='address' placeholder='Enter address' onChange={(e) => setAddress(e.target.value)}/>
+            </Col>
+            <Col className='text-center'>
+              {isWaiting ? (
+                <Spinner annimation='border' />
+              ): (
+                <Button variant='primary' type='submit' style={{ width: '100%' }}>
+                  Add Address To Whitelist
+                </Button>
+              )}
+            </Col>
+          </Form.Group>
+        </Form>
+        <hr />
+        </>
+      ) : (
+        <p> </p>
+      )}
+
       <Form onSubmit={finalizeHandler} style={{ maxWidth: '600px', margin: '50px auto' }}>
         <Form.Group as={Row}>
           <Col className='text-center'>
