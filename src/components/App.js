@@ -96,9 +96,7 @@ function App() {
 
   return(
     <Container>
-      <Navigation
-        tokenName={tokenName}
-      />
+      <Navigation />
 
       <h1 className='my-4 text-center' style={{ color: LOGO_COLOR }}>Introducing {tokenName}!</h1>
 
@@ -106,14 +104,20 @@ function App() {
         <Loading />
       ) : (
         <>
-          <p className='text-center'><strong>Current Price:</strong> {price} sepoliaETH</p>
-          <p className='text-center'><strong>MAX Purchase Amount:</strong> {MAX_BUY} {tokenSymbol}</p>
-          <p className='text-center'><strong>Token Address on Sepolia:</strong> {tokenAddress}</p>
+          <p className='text-center'>
+            <strong className='mx-2'>Current Price:</strong> {price} sepoliaETH
+          </p>
+          <p className='text-center'>
+            <strong className='mx-2'>MAX Purchase Amount:</strong> {MAX_BUY} {tokenSymbol}
+          </p>
+          <p className='text-center'>
+            <strong className='mx-2'>Token Address on Sepolia:</strong> {tokenAddress}
+          </p>
 
           <hr />
 
           <h5 className='text-center' style={{ color: LOGO_COLOR }}>
-            THIS CROWDSALE IS FOR EXAMPLE PURPOSES ONLY.
+            THIS CROWDSALE IS FOR EDUCATIONAL PURPOSES ONLY.
           </h5>
           <p className='text-center' style={{ width: '80%', marginLeft: '10%', marginRight: '-10%' }}>
             Using sepoliaETH, you may purchase up to {MAX_BUY} {tokenSymbol} tokens per address.

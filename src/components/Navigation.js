@@ -7,7 +7,7 @@ const logoColor = '#0f2a87'
 // logo dimensions:  SW3_logo_small = 114w X 164h
 //                   SW3_logo_smaller = 95w X 127h
 
-const Navigation = ({ tokenName }) => {
+const Navigation = () => {
   return(
       <Navbar>
         <Container>
