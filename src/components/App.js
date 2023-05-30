@@ -120,7 +120,8 @@ function App() {
             THIS CROWDSALE IS FOR EDUCATIONAL PURPOSES ONLY.
           </h5>
           <p className='text-center' style={{ width: '80%', marginLeft: '10%', marginRight: '-10%' }}>
-            Using sepoliaETH, you may purchase up to {MAX_BUY} {tokenSymbol} tokens per address.
+            Using sepoliaETH, you may purchase up to {MAX_BUY} {tokenSymbol} tokens per address. (Go to
+            sepoliafaucet.com and connect your free Alchemy account to receive sepoliaETH.)
             This Crowdsale will distribute a maximum of 400,000 {tokenSymbol} tokens (40% of the total supply).
             The remaining tokens are distributed between multiple test wallets for testing purposes. Add
             the token address above to your wallet to see your tokens.

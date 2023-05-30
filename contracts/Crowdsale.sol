@@ -91,5 +91,4 @@ contract Crowdsale {
 
         emit Finalize(tokensSold, value);
     }
-
 }

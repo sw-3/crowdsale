@@ -1,10 +1,14 @@
 // Deploy SW3 Token and the Crowdsale contract.
+//
 // NOTE the commented section, if you want to deploy Crowdsale for a token that
 //      has already been deployed.
 
 const hre = require("hardhat");
 
 async function main() {
+
+  console.log('\n\n\nDeploying Crowdsale contracts...\n')
+
   const NAME = 'SW3 Token'
   const SYMBOL = 'SW3'
   const TOKEN_SUPPLY = '1000000'
@@ -39,7 +43,7 @@ async function main() {
   await crowdsale.deployed()
   console.log(`Crowdsale deployed to: ${crowdsale.address}\n`)
 
-  // send tokens to crowdsale
+  console.log(`Transferring tokens to Crowdsale...\n`)
   const transaction = await token.transfer
                               (
                                 crowdsale.address,
@@ -47,7 +51,7 @@ async function main() {
                               )
   await transaction.wait()
 
-  console.log(`Tokens transferred to Crowdsale\n`)
+  console.log(`\nDone.\n`)
 }
 
 // We recommend this pattern to be able to use async/await everywhere
