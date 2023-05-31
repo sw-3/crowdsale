@@ -120,18 +120,19 @@ function App() {
             THIS CROWDSALE IS FOR EDUCATIONAL PURPOSES ONLY.
           </h5>
           <p className='text-center' style={{ width: '80%', marginLeft: '10%', marginRight: '-10%' }}>
-            Using sepoliaETH, you may purchase up to {MAX_BUY} {tokenSymbol} tokens per address. (Go to
-            sepoliafaucet.com and connect your free Alchemy account to receive sepoliaETH.)
-            This Crowdsale will distribute a maximum of 400,000 {tokenSymbol} tokens (40% of the total supply).
-            The remaining tokens are distributed between multiple test wallets for testing purposes. Add
-            the token address above to your wallet to see your tokens.
+            Using sepoliaETH, you may purchase up to {MAX_BUY} {tokenSymbol} tokens here.
+            Add the above token address to your wallet to see your tokens on the Sepolia testnet.<br />
+          </p>
+          <p className='text-center' style={{ width: '80%', marginLeft: '10%', marginRight: '-10%' }}>
+            (<i>Need some sepoliaETH?</i> Create a free Alchemy.com account and connect it to sepoliafaucet.com
+            to request some! Or message me on my socials, and if I have some extra I will share.)
           </p>
 
           <p className='text-center' style={{ width: '80%', marginLeft: '10%', marginRight: '-10%' }}>
             <strong style={{ color: LOGO_COLOR }}>TO CONTINUE THE EXMPLE...</strong><br />
             As a token holder, you have full access to the example {tokenName} project DAO! You will be
-            able to create and vote on proposals there. So go ahead! Get yourself
-            some {tokenSymbol} tokens here, and head on over to the DAO:<br />{`< link coming soon >`}
+            able to create and vote on proposals there. So get some {tokenSymbol} tokens here, and head
+            over to the DAO:<br />{`< link coming soon >`}
           </p>
 
           <Buy
