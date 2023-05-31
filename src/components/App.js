@@ -132,7 +132,9 @@ function App() {
             <strong style={{ color: LOGO_COLOR }}>TO CONTINUE THE EXMPLE...</strong><br />
             As a token holder, you have full access to the example {tokenName} project DAO! You will be
             able to create and vote on proposals there. So get some {tokenSymbol} tokens here, and head
-            over to the DAO:<br />{`< link coming soon >`}
+            over to the DAO:<br />
+            <a href='https://broad-queen-1188.on.fleek.co/' target='_blank' rel='noreferrer'>
+              SW3 Project DAO</a>
           </p>
 
           <Buy
