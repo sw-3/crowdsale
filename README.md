@@ -20,7 +20,7 @@ The project consists of 2 smart contracts and a web front end.
 3. Enter `npx hardhat test` to compile the smart contracts and run their tests.
 
 ## Run Locally
-1. In a terminal session:  Enter `npx hardhat node` to launch a blockchain node on your computer
+1. In a terminal session:  Enter `npx hardhat node` to launch a blockchain node on your computer. (Note the output generated; you will use the addresses for some Hardhat accounts for this project.)
 2. In a 2nd terminal session:  Enter `npx hardhat run --network localhost ./scripts/deploy.js`
 
 After the above, you should see output of the address for the deployed Token and Crowdsale contracts. The deploy script also transfers 40% of the total supply of tokens to the Crowdsale contract. In the terminal window that is running the blockchain node, you should see that the deploy & configure transactions ran successfully.
@@ -29,7 +29,7 @@ Your blockchain is now running locally with the Crowdsale contracts deployed!
 
 **IMPORTANT NOTE:** Compare the 2 deployed contract addresses on the terminal screen, with the first 2 addresses in the **./src/config.json** file. The addresses in the file MUST match the addresses on the screen in this step. If they do not match, *correct the addresses in the config.json file now*.
 
-3. You should add the Hardhat network (chainId 31337) to your Metamask wallet, and import the Hardhat #0 account to have access to the *finalize* function of the Crowdsale.
+3. You should add the Hardhat network (chainId 31337) to your Metamask wallet, and import the Hardhat #0 account to have access to the *finalize* function of the Crowdsale, as well as the 60% of tokens not owned by the Crowdsale. You can import other Hardhat accounts into Metamask to purchase tokens from the Crowdsale.
 
 ## Launch The Front End
 In a 3rd terminal window:  Enter `npm run start`<br />
