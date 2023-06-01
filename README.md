@@ -8,7 +8,7 @@ The project consists of 2 smart contracts and a web front end.
 - **Crowdsale.sol** is the smart contract that manages the crowdsale. It implements an *optional whitelist* and a *finalize* function to send the proceeds and remaining tokens to the contract owner.
 - **Crowdsale Frontend** is a React.js app which provides the user interface to the crowdsale.
 
-## Technologies Used (check these versions and the rest from here)
+## Technologies Used
 - **react.js**  This project was built with v 18.2.0
 - **node.js v16.X:**  This project was built with v 16.14.2.  Run `node -v` to see your version of node.
 - **hardhat:**  This project is using v 2.13.0.  Run `npx hardhat --version` to see your version.
